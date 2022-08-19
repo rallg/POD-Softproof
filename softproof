@@ -8,7 +8,7 @@
 # This file may be used, distributed and/or modified under the
 # conditions of the MIT License.
 
-thisver="0.1" # Version.
+thisver="0.1.1" # Version.
 
 vermsg="version $thisver."
 usagemsg="Usage: ./softproof YourImage\nHelp: ./softproof -h\n"
@@ -93,7 +93,7 @@ fi
 unset input
 
 # Create reference image, with sRGB color profile:
-if [ -f temp.icc ] ; then
+if [ -f working/temp.icc ] ; then
 	how="-profile working/temp.icc -profile icc/srgb.icc"
 	magick mogrify $how working/temp.png
 	e="$?" ; [ "$e" -ne 0 ] && discardall
