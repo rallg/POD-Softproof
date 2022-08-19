@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"/>
+<head>
+<title>Color change, original to softproof</title>
+<style type="text/css">
+body {text-align:center;}
+p {text-align:center; margin:0;}
+th {width:46%; margin:auto; text-align:center;}
+td {width:46%; margin:auto; text-align:center;}
+img {max-width:100%; margin:auto;}
+a {color:#0000cc;}
+#master {position:relative;}
+#sidebyside {position:relative; margin:auto;}
+#superimposed {margin:auto; text-align:center; display:none;}
+#softimage {position:absolute; visibility:hidden;}
+#refimage {position:relative;}
+#choosemethod {visibility:hidden;}
+</style>
+<script type="text/javascript">
+function showsbs(){
+	document.getElementById("superimposed").style.display="none"
+	document.getElementById("refimage").style.visibility="hidden"
+	document.getElementById("softimage").style.visibility="hidden"
+	document.getElementById("sidebyside").style.display="block"
+}
+function showsuper(){
+	document.getElementById("sidebyside").style.display="none"
+	document.getElementById("superimposed").style.display="block"
+}
+function showref(){
+	showsuper()
+	document.getElementById("softimage").style.visibility="hidden"
+	document.getElementById("refimage").style.visibility="visible"
+}
+function showsoft(){
+	showsuper()
+	document.getElementById("refimage").style.visibility="hidden"
+	document.getElementById("softimage").style.visibility="visible"
+}
+</script>
+</head>
+<body>
+<div id="master">
+
+<div id="sidebyside">
+<img src="working/reference.jpg" alt="reference image missing"/>
+<img src="working/softproof.jpg" alt="softproof image missing"/>
+</div>
+
+<div id="superimposed">
+<img id="softimage" src="working/softproof.jpg" alt="softproof image missing"/>
+<img id="refimage" src="working/reference.jpg" alt="reference image missing"/>
+</div>
+
+<p id="scriptinfo">JavaScript is off. If you turn it on, then you can
+show the images either side-by-side, or superimposed.</p>
+
+<p id="choosemethod">
+<a id="sbs" href="javascript:showsbs();">side-by-side reference/softproof</a>
+&nbsp; &nbsp; superimposed:
+<a id="ref" href="javascript:showref();">reference</a>
+<a id="soft" href="javascript:showsoft();">softproof</a>
+</p>
+
+<script type="text/javascript">
+document.getElementById("scriptinfo").style.visibility="hidden"
+document.getElementById("choosemethod").style.visibility="visible"
+</script>
+
+</div> <!-- end master -->
+</body>
+</html>
