@@ -1,21 +1,21 @@
 #!/bin/sh
 
-# softproof
+# softproof.sh
 # Main repository: github.com/rallg/POD-Softproof
-# This is a BASH command script.
+# This is a Linux shell script.
 # FREE SOFTWARE, WITHOUT WARRANTY EXPRESS OR IMPLIED. USE AT OWN RISK.
 # Copyright 2018, 2022 Robert Allgeyer.
 # This file may be used, distributed and/or modified under the
 # conditions of the MIT License.
 
-thisver="0.1.1" # Version.
+thisver="0.1.2" # Version.
 
 vermsg="version $thisver."
-usagemsg="Usage: ./softproof YourImage\nHelp: ./softproof -h\n"
+usagemsg="Usage: ./softproof.sh YourImage\nHelp: ./softproof.sh -h\n"
 
-if [ "$0" != "./softproof" ] ; then
+if [ "$0" != "./softproof.sh" ] ; then
 	echo "Error. You must run this script from within its own directory."
-	echo "In other words, use ./softproof not /path/to/softproof."
+	echo "In other words, use ./softproof.sh not /path/to/softproof.sh."
 	exit 2
 fi
 
@@ -23,10 +23,10 @@ fi
 if [ "$1" = "" ] ; then printf "$usagemsg" ; exit ; fi
 if [ "$1" = "-v" ] || [ "$1" = "-V" ] ; then echo "$vermsg" ; exit ; fi
 
-h="Script 'softproof' emulates CMYK print at 240% ink limit.\n"
+h="Script 'softproof.sh' emulates CMYK print at 240% ink limit.\n"
 h="${h}This is the technology often used for print-on-demand book covers.\n"
-h="${h}Invoke as ./softproof YourImage (from within its own directory).\n"
-h="${h}For an example:  ./softproof example\n"
+h="${h}Invoke as ./softproof.sh YourImage (from within its own directory).\n"
+h="${h}For an example:  ./softproof.sh example\n"
 h="${h}Requires 'ImageMagick' program.\n"
 h="${h}1) YourImage is its case-sensitive filename with extension.\n"
 h="${h}   It will not be changed. Must use an RGB color space.\n"
@@ -50,16 +50,16 @@ if [ "$1" = "-h" ] || [ "$1" = -H ] ; then printf "$h" ; exit ; fi
 
 
 # Check structure of directories and required files:
-if [ ! -f "icc/srgb.icc" ] || [ ! -f "icc/inklimit240.icc" ] ; then
-	echo "Error. Did not find both color profiles in 'icc' folder."
-	echo "Needs 'icc/srgb.icc' and 'icc/inklimit240.icc'."
+if [ ! -f "resource/srgb.icc" ] || [ ! -f "resource/inklimit240.icc" ] ; then
+	echo "Error. Did not find both color profiles in 'resource' folder."
+	echo "Needs 'resource/srgb.icc' and 'resource/inklimit240.icc'."
 	exit 2
 fi
 mkdir -p working
 
 # Find input file:
 input="$1"
-[ "$input" = "example" ] && input="doc/example.png"
+[ "$input" = "example" ] && input="resource/example.png"
 [ ! -f "$input" ] && echo "Error. File $input not found." && exit 2
 
 # Check for ImageMagick:
@@ -94,21 +94,21 @@ unset input
 
 # Create reference image, with sRGB color profile:
 if [ -f working/temp.icc ] ; then
-	how="-profile working/temp.icc -profile icc/srgb.icc"
+	how="-profile working/temp.icc -profile resource/srgb.icc"
 	magick mogrify $how working/temp.png
 	e="$?" ; [ "$e" -ne 0 ] && discardall
 else
-	magick mogrify -profile icc/srgb.icc working/temp.png
+	magick mogrify -profile resource/srgb.icc working/temp.png
 	e="$?" ; [ "$e" -ne 0 ] && discardall
 fi
 magick convert -quality 100 working/temp.png working/reference.jpg
 e="$?" ; [ "$e" -ne 0 ] && discardall
 
 # Convert to temporary CMYK at 240% ink limit, then re-convert to sRGB:
-how="-quality 100 -profile icc/srgb.icc -profile icc/inklimit240.icc"
+how="-quality 100 -profile resource/srgb.icc -profile resource/inklimit240.icc"
 magick convert $how working/temp.png working/temp.jpg
 e="$?" ; [ "$e" -ne 0 ] && discardall
-how="-quality 100 -profile icc/inklimit240.icc -profile icc/srgb.icc"
+how="-quality 100 -profile resource/inklimit240.icc -profile resource/srgb.icc"
 magick convert $how working/temp.jpg working/softproof.jpg
 e="$?" ; [ "$e" -ne 0 ] && discardall
 
