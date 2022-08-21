@@ -4,21 +4,15 @@ REM softproof.bat
 REM Main repository: github.com/rallg/POD-Softproof
 REM This is a Windows batch command script.
 REM FREE SOFTWARE, WITHOUT WARRANTY EXPRESS OR IMPLIED. USE AT OWN RISK.
-REM Copyright 2018, 2022 Robert Allgeyer.
+REM Copyright 2022 Robert Allgeyer.
 REM This file may be used, distributed and/or modified under the
 REM conditions of the MIT License.
 
-set thisver="0.1.2" REM Script version.
+set thisver="0.1.3" REM Script version.
 
 set vermsg="version %thisver%."
 set usagemsg1="Usage: softproof.bat YourImage"
 set usagemsg2="Help: softproof.bat -h"
-
-if "%~0" != "%CD%\softproof.bat" (
-	echo "Error. You must run this script from within POD-Softproof folder."
-	echo "In other words, use softproof.bat not C:\path\to\softproof.bat."
-	exit "2"
-)
 
 if "%1" == "" (
   echo "%usagemsg1%"
@@ -84,9 +78,11 @@ if "%1" == "-h" "]" || [ "%1" == "-H" (
 )
 
 if not exist "resource\srgb.icc" || not exist "resource\inklimit240.icc" (
-  echo "Error. Did not find both color profiles in 'resource' folder."
-  echo "Needs 'resource\srgb.icc' and 'resource\inklimit240.icc'."
-  exit "2"
+	echo "Error. Did not find both color profiles in 'resource' folder."
+	echo "Needs 'resource\srgb.icc' and 'resource\inklimit240.icc'."
+	echo "Be sure to launch from command window in POD-Softproof folder,"
+	echo "not as path\to\softproof.bat."
+	exit "2"
 )
 
 

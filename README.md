@@ -26,9 +26,13 @@ On Windows, you can get an installer directly from the ImageMagick download
 page (use Q16). Or, create a folder named `imagemagick` within POD-Softproof,
 place the portable ImageMagick zip file there, and unzip it.
 
-For an example: `./softproof.sh example` or `./softproof.bat example`.
+On Linux, launch softproof.sh from its own directory, as `./softproof.sh` but
+do not launch it from elsewhere as `/path/to/softproof.sh`.
+For help: `/.softproof.sh -h`. For an example: `./softproof.sh example`.
 
-For help: `./softproof.sh -h` or `./softproof.bat -h`.
+On Windows, open a command window (cmd) in the POD-Softproof folder.
+Then command `softproof.bat -h` for help, `softproof.bat example` for an
+example.
 
 Here is the example, with original image at left, softproof at right.
 This image was intentionally created to illustrate large color changes.
@@ -37,9 +41,15 @@ Greens appear darker. Light greenish-blue appears washed-out. Reds and
 yellows are barely shifted (and thus, human skin tones will print well).
 It may not be obvious, but the blacks are not as dark in softproof as
 they are in the original. This lightening of dark areas is due to the
-ink limitations of POD technology.
+ink limitations of POD technology:
 
 ![Example showing large color shifts](resource/dual-example.png)
+
+The copied original image is working/reference.jpg. The softproof is
+working/softproof.jpg. If you now run softproof using working/softproof.jpg
+as input file, then the new reference is the old softproof. You will see that
+the new softproof looks the same as the old softproof, because the colors
+are already in the print colorspace.
 
 On the other hand, images with more subtle colors will barely shift.
 The next image shows an outdoor scene taken near Bixby Bridge (a famous
@@ -59,4 +69,5 @@ noticeable difference:
 
 IMPORTANT: As of August 20, 2022, the Linux shell script has been tested.
 The Windows batch script has not yet been tested; if it fails, that merely
-indicates a fixable scripting error, not a fundamental problem.
+indicates a fixable scripting error, not a fundamental problem. Will test it
+when a Windows machine is available.

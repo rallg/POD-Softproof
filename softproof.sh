@@ -4,21 +4,14 @@
 # Main repository: github.com/rallg/POD-Softproof
 # This is a Linux shell script.
 # FREE SOFTWARE, WITHOUT WARRANTY EXPRESS OR IMPLIED. USE AT OWN RISK.
-# Copyright 2018, 2022 Robert Allgeyer.
+# Copyright 2022 Robert Allgeyer.
 # This file may be used, distributed and/or modified under the
 # conditions of the MIT License.
 
-thisver="0.1.2" # Version.
+thisver="0.1.4" # Version.
 
 vermsg="version $thisver."
 usagemsg="Usage: ./softproof.sh YourImage\nHelp: ./softproof.sh -h\n"
-
-if [ "$0" != "./softproof.sh" ] ; then
-	echo "Error. You must run this script from within its own directory."
-	echo "In other words, use ./softproof.sh not /path/to/softproof.sh."
-	exit 2
-fi
-
 
 if [ "$1" = "" ] ; then printf "$usagemsg" ; exit ; fi
 if [ "$1" = "-v" ] || [ "$1" = "-V" ] ; then echo "$vermsg" ; exit ; fi
@@ -53,6 +46,8 @@ if [ "$1" = "-h" ] || [ "$1" = -H ] ; then printf "$h" ; exit ; fi
 if [ ! -f "resource/srgb.icc" ] || [ ! -f "resource/inklimit240.icc" ] ; then
 	echo "Error. Did not find both color profiles in 'resource' folder."
 	echo "Needs 'resource/srgb.icc' and 'resource/inklimit240.icc'."
+	echo "Be sure to launch as ./softproof.sh from its own directory,"
+	echo "not as /path/to/softproof.sh."
 	exit 2
 fi
 mkdir -p working
